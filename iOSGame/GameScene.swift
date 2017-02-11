@@ -12,12 +12,12 @@ import GameplayKit
 class GameScene: SKScene {
     
     // 1
-    let chicken = SKSpriteNode(imageNamed: "chicken")
+    let chicken = SKSpriteNode(imageNamed: "chicken-2")
     var chickenPosition = ""
     var currentPlacement = -1
-    let Circle1 = SKShapeNode(circleOfRadius: 50 )
-    let Circle2 = SKShapeNode(circleOfRadius: 50 )
-    let Circle3 = SKShapeNode(circleOfRadius: 50 )
+    let Circle1 = SKShapeNode(circleOfRadius: 37 )
+    let Circle2 = SKShapeNode(circleOfRadius: 37 )
+    let Circle3 = SKShapeNode(circleOfRadius: 37 )
     
     override func didMove(to view: SKView) {
         // 2
@@ -26,6 +26,7 @@ class GameScene: SKScene {
         addPlayer()
         addButtons()
     }
+    
     
     func addPlayer() {
         var placement = Int(arc4random_uniform(3) + 1)
@@ -37,13 +38,13 @@ class GameScene: SKScene {
         currentPlacement = placement
         
         if(placement == 2) {
-            chicken.position = CGPoint(x: size.width * 0.15, y: size.height * 0.9)
+            chicken.position = CGPoint(x: size.width * 0.20, y: size.height * 0.8)
             chickenPosition = "left"
         } else if (placement == 1) {
-            chicken.position = CGPoint(x: size.width * 0.5, y: size.height * 0.9)
+            chicken.position = CGPoint(x: size.width * 0.5, y: size.height * 0.8)
             chickenPosition = "mid"
         } else {
-            chicken.position = CGPoint(x: size.width * 0.85, y: size.height * 0.9)
+            chicken.position = CGPoint(x: size.width * 0.80, y: size.height * 0.8)
             chickenPosition = "right"
         }
         
@@ -54,17 +55,17 @@ class GameScene: SKScene {
     func addButtons() {
         //left
         Circle1.position = CGPoint(x: size.width * 0.15, y: size.height * 0.1)
-        Circle1.fillColor = SKColor.blue
+        Circle1.fillColor = UIColor(red:0.32, green:0.70, blue:0.85, alpha:1.0)
         addChild(Circle1)
         
         //mid
         Circle2.position = CGPoint(x: size.width * 0.5, y: size.height * 0.1)
-        Circle2.fillColor = SKColor.red
+        Circle2.fillColor = UIColor(red:0.96, green:0.28, blue:0.28, alpha:1.0)
         addChild(Circle2)
         
         //right
         Circle3.position = CGPoint(x: size.width * 0.85, y: size.height * 0.1)
-        Circle3.fillColor = SKColor.green
+        Circle3.fillColor = UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0)
         addChild(Circle3)
     }
     
@@ -104,4 +105,5 @@ class GameScene: SKScene {
 
         }
     }
+
 }

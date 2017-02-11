@@ -12,6 +12,10 @@ import GameplayKit
 
 class GameViewController: UIViewController {
 
+    @IBOutlet weak var countdown: UILabel!
+
+    var count = 10
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let scene = GameScene(size: view.bounds.size)
@@ -26,4 +30,5 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+
 }
