@@ -11,61 +11,100 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    // 1
-    let chicken = SKSpriteNode(imageNamed: "chicken-2")
+    var chicken = SKSpriteNode(imageNamed: "chicken-2")
     var chickenPosition = ""
     var currentPlacement = -1
-    let Circle1 = SKShapeNode(circleOfRadius: 37 )
-    let Circle2 = SKShapeNode(circleOfRadius: 37 )
-    let Circle3 = SKShapeNode(circleOfRadius: 37 )
+    let Circle1 = SKSpriteNode(imageNamed: "barn")
+    let Circle2 = SKSpriteNode(imageNamed: "barn")
+    let Circle3 = SKSpriteNode(imageNamed: "barn")
+    
+    var arrayChickens:[SKSpriteNode] = []
+    var arrayPositions:[String] = []
+    let numberOfChickens = 5
     
     override func didMove(to view: SKView) {
-        // 2
-        backgroundColor = SKColor.white
+/*
+        let bgImage = SKSpriteNode(imageNamed: "background.jpg")
         
-        addPlayer()
+        self.addChild(bgImage)*/
+        backgroundColor = UIColor.white
+        
+        initChicken()
         addButtons()
     }
     
-    
-    func addPlayer() {
-        var placement = Int(arc4random_uniform(3) + 1)
-        
-        while(placement == currentPlacement) {
-            placement = Int(arc4random_uniform(3) + 1)
+    /* Creates 6 instances of a sprite and add them to the sprites array */
+    func initChicken() {
+        for i in 0..<numberOfChickens {
+            chicken = SKSpriteNode(imageNamed: "chicken-2")
+            
+            let placement = Int(arc4random_uniform(100)%3)
+
+            if(placement == 2) {
+                chicken.position = CGPoint(x: size.width * 0.145, y: (size.height * 0.25 + CGFloat(i) * size.height * 0.15))
+                chickenPosition = "left"
+            } else if (placement == 1) {
+                chicken.position = CGPoint(x: size.width * 0.5, y: (size.height * 0.25 + CGFloat(i) * size.height * 0.15))
+                chickenPosition = "mid"
+            } else {
+                chicken.position = CGPoint(x: size.width * 0.855, y: (size.height * 0.25 + CGFloat(i) * size.height * 0.15))
+                chickenPosition = "right"
+            }
+            
+            arrayChickens.append(chicken)
+            arrayPositions.append(chickenPosition)
+            addChild(chicken)
         }
+    }
+    
+
+    func addChicken() {
+        // Adds chicken to last index of arrayChicken
+        chicken = SKSpriteNode(imageNamed: "chicken-2")
+        let placement = Int(arc4random_uniform(100)%3)
         
-        currentPlacement = placement
         
         if(placement == 2) {
-            chicken.position = CGPoint(x: size.width * 0.20, y: size.height * 0.8)
+            chicken.position = CGPoint(x: size.width * 0.145, y: (size.height * 0.25 + 5 * size.height * 0.15))
             chickenPosition = "left"
         } else if (placement == 1) {
-            chicken.position = CGPoint(x: size.width * 0.5, y: size.height * 0.8)
+            chicken.position = CGPoint(x: size.width * 0.5, y: (size.height * 0.25 + 5 * size.height * 0.15))
             chickenPosition = "mid"
         } else {
-            chicken.position = CGPoint(x: size.width * 0.80, y: size.height * 0.8)
+            chicken.position = CGPoint(x: size.width * 0.855, y: (size.height * 0.25 + 5 * size.height * 0.15))
             chickenPosition = "right"
         }
         
+        arrayChickens[4] = chicken
+        arrayPositions[4] = chickenPosition
         addChild(chicken)
 
     }
     
+    func moveDown() {
+        arrayChickens[0].removeFromParent() // remove the chicken in the first row
+        addChicken()
+        for i in 0..<numberOfChickens-1 {
+            arrayPositions[i] = arrayPositions[i+1]
+            arrayChickens[i] = arrayChickens[i+1]
+        }
+        for i in 0..<numberOfChickens {
+            arrayChickens[i].position = CGPoint(x: arrayChickens[i].position.x, y: arrayChickens[i].position.y - size.height * 0.15)
+        }
+    }
+    
+    
     func addButtons() {
         //left
-        Circle1.position = CGPoint(x: size.width * 0.15, y: size.height * 0.1)
-        Circle1.fillColor = UIColor(red:0.32, green:0.70, blue:0.85, alpha:1.0)
+        Circle1.position = CGPoint(x: size.width * 0.15, y: size.height * 0.13)
         addChild(Circle1)
         
         //mid
-        Circle2.position = CGPoint(x: size.width * 0.5, y: size.height * 0.1)
-        Circle2.fillColor = UIColor(red:0.96, green:0.28, blue:0.28, alpha:1.0)
+        Circle2.position = CGPoint(x: size.width * 0.5, y: size.height * 0.13)
         addChild(Circle2)
         
         //right
-        Circle3.position = CGPoint(x: size.width * 0.85, y: size.height * 0.1)
-        Circle3.fillColor = UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0)
+        Circle3.position = CGPoint(x: size.width * 0.85, y: size.height * 0.13)
         addChild(Circle3)
     }
     
@@ -87,20 +126,17 @@ class GameScene: SKScene {
                 touchPosition = "right"
             }
             
-            // check if circlenode has been touched
-            if (self.Circle1.contains(location) && touchPosition == chickenPosition)  {
-                chicken.removeFromParent()
-                addPlayer()
+            // check if circle node has been touched
+            if (self.Circle1.contains(location) && touchPosition == arrayPositions[0])  {
+                moveDown()
             }
             
-            if (self.Circle2.contains(location) && touchPosition == chickenPosition)  {
-                chicken.removeFromParent()
-                addPlayer()
+            if (self.Circle2.contains(location) && touchPosition == arrayPositions[0])  {
+                moveDown()
             }
             
-            if (self.Circle3.contains(location) && touchPosition == chickenPosition)  {
-                chicken.removeFromParent()
-                addPlayer()
+            if (self.Circle3.contains(location) && touchPosition == arrayPositions[0])  {
+                moveDown()
             }
 
         }

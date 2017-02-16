@@ -202,6 +202,7 @@
 				TargetAttributes = {
 					0AC735731E4D88850095FA28 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = U78YPQK9PE;
 						ProvisioningStyle = Automatic;
 					};
 					0AC7358D1E4D88860095FA28 = {
@@ -424,9 +425,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = U78YPQK9PE;
 				INFOPLIST_FILE = iOSGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = COMP4977.iOSGame;
+				PRODUCT_BUNDLE_IDENTIFIER = COMP4977.Chicken;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -436,9 +440,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = U78YPQK9PE;
 				INFOPLIST_FILE = iOSGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = COMP4977.iOSGame;
+				PRODUCT_BUNDLE_IDENTIFIER = COMP4977.Chicken;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
