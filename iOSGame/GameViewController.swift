@@ -12,9 +12,9 @@ import GameplayKit
 
 class GameViewController: UIViewController {
 
-    @IBOutlet weak var countdown: UILabel!
-
-    var count = 10
+    @IBOutlet weak var countLabel: UILabel!
+    var timer = Timer()
+    var counter = 30
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +25,22 @@ class GameViewController: UIViewController {
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(UIMenuController.update), userInfo: nil, repeats:true)
+    }
+    
+    func update() {
+        if (counter > -1) {
+            countLabel.text = String(counter)
+            counter -= 1
+        } else {
+            timer.invalidate()
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+
 
 }
