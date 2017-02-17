@@ -11,7 +11,7 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     
-    init(size: CGSize, won:Bool) {
+    override init(size: CGSize) {
         
         super.init(size: size)
         
@@ -19,10 +19,10 @@ class GameOverScene: SKScene {
         backgroundColor = SKColor.white
         
         // 2
-        let message = won ? "You Won!" : "You Lose :["
+        let message = "Game Over"
         
         // 3
-        let label = SKLabelNode(fontNamed: "Chalkduster")
+        let label = SKLabelNode(fontNamed: "Thonburi-Bold")
         label.text = message
         label.fontSize = 40
         label.fontColor = SKColor.black
@@ -31,14 +31,14 @@ class GameOverScene: SKScene {
         
         // 4
         run(SKAction.sequence([
-            SKAction.wait(forDuration: 3.0),
+            SKAction.wait(forDuration: 10.0),
             SKAction.run() {
                 // 5
                 let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
                 let scene = GameScene(size: size)
                 self.view?.presentScene(scene, transition:reveal)
             }
-            ]))
+        ]))
         
     }
     

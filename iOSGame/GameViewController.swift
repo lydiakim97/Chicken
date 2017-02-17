@@ -14,7 +14,7 @@ class GameViewController: UIViewController {
 
     @IBOutlet weak var countLabel: UILabel!
     var timer = Timer()
-    var counter = 30
+    var counter = 5
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,10 +30,16 @@ class GameViewController: UIViewController {
     
     func update() {
         if (counter > -1) {
-            countLabel.text = String(counter)
+            countLabel.text = "Time: " + String(counter)
             counter -= 1
         } else {
             timer.invalidate()
+            
+            let skView = self.view as! SKView
+            let reveal = SKTransition.fade(with: UIColor.red, duration: 5)
+            let gameOverScene = GameOverScene(size: view.bounds.size)
+            skView.presentScene(gameOverScene, transition: reveal
+            )
         }
     }
     

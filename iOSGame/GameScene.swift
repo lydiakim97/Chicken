@@ -23,10 +23,9 @@ class GameScene: SKScene {
     let numberOfChickens = 5
     
     override func didMove(to view: SKView) {
-/*
-        let bgImage = SKSpriteNode(imageNamed: "background.jpg")
+        /*let bgImage = SKSpriteNode(imageNamed: "background.jpg")
         
-        self.addChild(bgImage)*/
+         self.addChild(bgImage)*/
         backgroundColor = UIColor.white
         
         initChicken()
