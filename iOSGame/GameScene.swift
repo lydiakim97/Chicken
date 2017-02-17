@@ -88,7 +88,10 @@ class GameScene: SKScene {
         addChicken()
 
         for i in 0..<numberOfChickens {
-            arrayChickens[i].position = CGPoint(x: arrayChickens[i].position.x, y: arrayChickens[i].position.y - size.height * 0.15)
+            //arrayChickens[i].position = CGPoint(x: arrayChickens[i].position.x, y: arrayChickens[i].position.y - size.height * 0.15)
+            let moveDownAction = SKAction.moveBy(x: 0, y: -size.height * 0.15, duration:0.2)
+            let moveDownSequence = SKAction.sequence([moveDownAction])
+            arrayChickens[i].run(moveDownSequence)
         }
 
     }
@@ -127,33 +130,16 @@ class GameScene: SKScene {
             }
             
             // check if circle node has been touched
-            if (self.Circle1.contains(location) && touchPosition == arrayPositions[0])  {
+            if (self.Circle1.contains(location) && touchPosition == arrayPositions[0]
+                || (self.Circle2.contains(location) && touchPosition == arrayPositions[0])
+                || (self.Circle3.contains(location) && touchPosition == arrayPositions[0]))  {
                 moveDown()
-            } else if (self.Circle1.contains(location) && touchPosition != arrayPositions[0]) {
+            } else {
                 let jumpUpAction = SKAction.moveBy(x: 0, y:20, duration:0.2)
                 let jumpDownAction = SKAction.moveBy(x: 0, y:-20, duration:0.2)
                 let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
                 arrayChickens[0].run(jumpSequence)
             }
-            
-            if (self.Circle2.contains(location) && touchPosition == arrayPositions[0])  {
-                moveDown()
-            } else if (self.Circle2.contains(location) && touchPosition != arrayPositions[0]) {
-                let jumpUpAction = SKAction.moveBy(x: 0, y:20, duration:0.2)
-                let jumpDownAction = SKAction.moveBy(x: 0, y:-20, duration:0.2)
-                let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
-                arrayChickens[0].run(jumpSequence)
-            }
-            
-            if (self.Circle3.contains(location) && touchPosition == arrayPositions[0])  {
-                moveDown()
-            } else if (self.Circle3.contains(location) && touchPosition != arrayPositions[0]) {
-                let jumpUpAction = SKAction.moveBy(x: 0, y:20, duration:0.2)
-                let jumpDownAction = SKAction.moveBy(x: 0, y:-20, duration:0.2)
-                let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
-                arrayChickens[0].run(jumpSequence)
-            }
-
         }
     }
 
