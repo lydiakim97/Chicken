@@ -13,7 +13,6 @@ class GameScene: SKScene {
     
     var chicken = SKSpriteNode(imageNamed: "chicken-2")
     var chickenPosition = ""
-    var currentPlacement = -1
     let Circle1 = SKSpriteNode(imageNamed: "barn")
     let Circle2 = SKSpriteNode(imageNamed: "barn")
     let Circle3 = SKSpriteNode(imageNamed: "barn")
@@ -24,22 +23,20 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         /*let bgImage = SKSpriteNode(imageNamed: "background.jpg")
-        
          self.addChild(bgImage)*/
         backgroundColor = UIColor.white
-        
         initChicken()
         addButtons()
     }
     
-    /* Creates 6 instances of a sprite and add them to the sprites array */
+    /* Creates 5 instances of a chicken and add them to the chickens array */
     func initChicken() {
         for i in 0..<numberOfChickens {
             chicken = SKSpriteNode(imageNamed: "chicken-2")
             
             let placement = Int(arc4random_uniform(100)%3)
 
-            if(placement == 2) {
+            if(placement == 0) {
                 chicken.position = CGPoint(x: size.width * 0.145, y: (size.height * 0.25 + CGFloat(i) * size.height * 0.15))
                 chickenPosition = "left"
             } else if (placement == 1) {
@@ -62,7 +59,6 @@ class GameScene: SKScene {
         chicken = SKSpriteNode(imageNamed: "chicken-2")
         let placement = Int(arc4random_uniform(100)%3)
         
-        
         if(placement == 2) {
             chicken.position = CGPoint(x: size.width * 0.145, y: (size.height * 0.25 + 5 * size.height * 0.15))
             chickenPosition = "left"
@@ -76,20 +72,25 @@ class GameScene: SKScene {
         
         arrayChickens[4] = chicken
         arrayPositions[4] = chickenPosition
+        
         addChild(chicken)
 
     }
     
     func moveDown() {
         arrayChickens[0].removeFromParent() // remove the chicken in the first row
-        addChicken()
-        for i in 0..<numberOfChickens-1 {
-            arrayPositions[i] = arrayPositions[i+1]
-            arrayChickens[i] = arrayChickens[i+1]
+        for i in 0..<numberOfChickens {
+            if (i != 4) {
+                arrayPositions[i] = arrayPositions[i+1]
+                arrayChickens[i] = arrayChickens[i+1]
+            }
         }
+        addChicken()
+
         for i in 0..<numberOfChickens {
             arrayChickens[i].position = CGPoint(x: arrayChickens[i].position.x, y: arrayChickens[i].position.y - size.height * 0.15)
         }
+
     }
     
     
