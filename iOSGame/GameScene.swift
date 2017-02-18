@@ -9,6 +9,9 @@
 import SpriteKit
 import GameplayKit
 
+var score: Int = 0
+var myLabel: SKLabelNode!
+
 class GameScene: SKScene {
     
     var chicken = SKSpriteNode(imageNamed: "chicken-2")
@@ -16,7 +19,7 @@ class GameScene: SKScene {
     let Circle1 = SKSpriteNode(imageNamed: "barn")
     let Circle2 = SKSpriteNode(imageNamed: "barn")
     let Circle3 = SKSpriteNode(imageNamed: "barn")
-    
+
     var arrayChickens:[SKSpriteNode] = []
     var arrayPositions:[String] = []
     let numberOfChickens = 5
@@ -27,6 +30,17 @@ class GameScene: SKScene {
         backgroundColor = UIColor.white
         initChicken()
         addButtons()
+        initScore()
+    }
+
+    // shows the friggin score
+    func initScore() {
+        myLabel = SKLabelNode(fontNamed: "Helvetica")
+        myLabel.text = "Score: 0"
+        myLabel.fontSize = 20
+        myLabel.fontColor = SKColor.black
+        myLabel.position = CGPoint(x: size.width / 2, y: size.height * 0.05)
+        addChild(myLabel)
     }
     
     /* Creates 5 instances of a chicken and add them to the chickens array */
@@ -50,6 +64,7 @@ class GameScene: SKScene {
             arrayChickens.append(chicken)
             arrayPositions.append(chickenPosition)
             addChild(chicken)
+
         }
     }
     
@@ -93,7 +108,8 @@ class GameScene: SKScene {
             let moveDownSequence = SKAction.sequence([moveDownAction])
             arrayChickens[i].run(moveDownSequence)
         }
-
+        score += 1
+        myLabel.text = "Score: \(score)"
     }
     
     

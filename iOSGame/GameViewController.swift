@@ -10,9 +10,13 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
+
+
 class GameViewController: UIViewController {
 
+    @IBOutlet weak var currentScore: UILabel!
     @IBOutlet weak var countLabel: UILabel!
+
     var timer = Timer()
     var counter = 10
 
@@ -46,7 +50,5 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
-
 
 }
