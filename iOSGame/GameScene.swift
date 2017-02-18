@@ -13,7 +13,6 @@ class GameScene: SKScene {
     
     var chicken = SKSpriteNode(imageNamed: "chicken-2")
     var chickenPosition = ""
-    var currentPlacement = -1
     let Circle1 = SKSpriteNode(imageNamed: "barn")
     let Circle2 = SKSpriteNode(imageNamed: "barn")
     let Circle3 = SKSpriteNode(imageNamed: "barn")
@@ -23,24 +22,21 @@ class GameScene: SKScene {
     let numberOfChickens = 5
     
     override func didMove(to view: SKView) {
-/*
-        let bgImage = SKSpriteNode(imageNamed: "background.jpg")
-        
-        self.addChild(bgImage)*/
+        /*let bgImage = SKSpriteNode(imageNamed: "background.jpg")
+         self.addChild(bgImage)*/
         backgroundColor = UIColor.white
-        
         initChicken()
         addButtons()
     }
     
-    /* Creates 6 instances of a sprite and add them to the sprites array */
+    /* Creates 5 instances of a chicken and add them to the chickens array */
     func initChicken() {
         for i in 0..<numberOfChickens {
             chicken = SKSpriteNode(imageNamed: "chicken-2")
             
             let placement = Int(arc4random_uniform(100)%3)
 
-            if(placement == 2) {
+            if(placement == 0) {
                 chicken.position = CGPoint(x: size.width * 0.145, y: (size.height * 0.25 + CGFloat(i) * size.height * 0.15))
                 chickenPosition = "left"
             } else if (placement == 1) {
@@ -63,7 +59,6 @@ class GameScene: SKScene {
         chicken = SKSpriteNode(imageNamed: "chicken-2")
         let placement = Int(arc4random_uniform(100)%3)
         
-        
         if(placement == 2) {
             chicken.position = CGPoint(x: size.width * 0.145, y: (size.height * 0.25 + 5 * size.height * 0.15))
             chickenPosition = "left"
@@ -77,20 +72,28 @@ class GameScene: SKScene {
         
         arrayChickens[4] = chicken
         arrayPositions[4] = chickenPosition
+        
         addChild(chicken)
 
     }
     
     func moveDown() {
         arrayChickens[0].removeFromParent() // remove the chicken in the first row
-        addChicken()
-        for i in 0..<numberOfChickens-1 {
-            arrayPositions[i] = arrayPositions[i+1]
-            arrayChickens[i] = arrayChickens[i+1]
-        }
         for i in 0..<numberOfChickens {
-            arrayChickens[i].position = CGPoint(x: arrayChickens[i].position.x, y: arrayChickens[i].position.y - size.height * 0.15)
+            if (i != 4) {
+                arrayPositions[i] = arrayPositions[i+1]
+                arrayChickens[i] = arrayChickens[i+1]
+            }
         }
+        addChicken()
+
+        for i in 0..<numberOfChickens {
+            //arrayChickens[i].position = CGPoint(x: arrayChickens[i].position.x, y: arrayChickens[i].position.y - size.height * 0.15)
+            let moveDownAction = SKAction.moveBy(x: 0, y: -size.height * 0.15, duration:0.2)
+            let moveDownSequence = SKAction.sequence([moveDownAction])
+            arrayChickens[i].run(moveDownSequence)
+        }
+
     }
     
     
@@ -127,18 +130,16 @@ class GameScene: SKScene {
             }
             
             // check if circle node has been touched
-            if (self.Circle1.contains(location) && touchPosition == arrayPositions[0])  {
+            if (self.Circle1.contains(location) && touchPosition == arrayPositions[0]
+                || (self.Circle2.contains(location) && touchPosition == arrayPositions[0])
+                || (self.Circle3.contains(location) && touchPosition == arrayPositions[0]))  {
                 moveDown()
+            } else {
+                let jumpUpAction = SKAction.moveBy(x: 0, y:20, duration:0.2)
+                let jumpDownAction = SKAction.moveBy(x: 0, y:-20, duration:0.2)
+                let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
+                arrayChickens[0].run(jumpSequence)
             }
-            
-            if (self.Circle2.contains(location) && touchPosition == arrayPositions[0])  {
-                moveDown()
-            }
-            
-            if (self.Circle3.contains(location) && touchPosition == arrayPositions[0])  {
-                moveDown()
-            }
-
         }
     }
 
