@@ -48,12 +48,12 @@ class GameScene: SKScene {
         for i in 0..<numberOfChickens {
             chicken = SKSpriteNode(imageNamed: "chicken-2")
             
-            let placement = Int(arc4random_uniform(100)%3)
+            let placement = Int(arc4random_uniform(100))
 
-            if(placement == 0) {
+            if(placement <= 33) {
                 chicken.position = CGPoint(x: size.width * 0.145, y: (size.height * 0.25 + CGFloat(i) * size.height * 0.15))
                 chickenPosition = "left"
-            } else if (placement == 1) {
+            } else if (placement <= 66) {
                 chicken.position = CGPoint(x: size.width * 0.5, y: (size.height * 0.25 + CGFloat(i) * size.height * 0.15))
                 chickenPosition = "mid"
             } else {
@@ -72,12 +72,12 @@ class GameScene: SKScene {
     func addChicken() {
         // Adds chicken to last index of arrayChicken
         chicken = SKSpriteNode(imageNamed: "chicken-2")
-        let placement = Int(arc4random_uniform(100)%3)
+        let placement = Int(arc4random_uniform(100))
         
-        if(placement == 2) {
+        if(placement <= 33) {
             chicken.position = CGPoint(x: size.width * 0.145, y: (size.height * 0.25 + 5 * size.height * 0.15))
             chickenPosition = "left"
-        } else if (placement == 1) {
+        } else if (placement <= 66) {
             chicken.position = CGPoint(x: size.width * 0.5, y: (size.height * 0.25 + 5 * size.height * 0.15))
             chickenPosition = "mid"
         } else {
@@ -104,7 +104,7 @@ class GameScene: SKScene {
 
         for i in 0..<numberOfChickens {
             //arrayChickens[i].position = CGPoint(x: arrayChickens[i].position.x, y: arrayChickens[i].position.y - size.height * 0.15)
-            let moveDownAction = SKAction.moveBy(x: 0, y: -size.height * 0.15, duration:0.2)
+            let moveDownAction = SKAction.moveBy(x: 0, y: -size.height * 0.15, duration:0.1)
             let moveDownSequence = SKAction.sequence([moveDownAction])
             arrayChickens[i].run(moveDownSequence)
         }
@@ -146,17 +146,64 @@ class GameScene: SKScene {
             }
             
             // check if circle node has been touched
-            if (self.Circle1.contains(location) && touchPosition == arrayPositions[0]
-                || (self.Circle2.contains(location) && touchPosition == arrayPositions[0])
-                || (self.Circle3.contains(location) && touchPosition == arrayPositions[0]))  {
+            if (self.Circle1.contains(location) && touchPosition == arrayPositions[0])  {
                 moveDown()
-            } else {
+            } else if (self.Circle1.contains(location) && touchPosition != arrayPositions[0]) {
                 let jumpUpAction = SKAction.moveBy(x: 0, y:20, duration:0.2)
                 let jumpDownAction = SKAction.moveBy(x: 0, y:-20, duration:0.2)
                 let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
                 arrayChickens[0].run(jumpSequence)
+                let enable1 = SKAction.run({[unowned self] in self.Circle1.isUserInteractionEnabled = false})
+                Circle1.isUserInteractionEnabled = true
+                Circle1.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable1]))
+                let enable2 = SKAction.run({[unowned self] in self.Circle2.isUserInteractionEnabled = false})
+                Circle2.isUserInteractionEnabled = true
+                Circle2.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable2]))
+                let enable3 = SKAction.run({[unowned self] in self.Circle3.isUserInteractionEnabled = false})
+                Circle3.isUserInteractionEnabled = true
+                Circle3.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable3]))
+                
+            }
+            
+            if (self.Circle2.contains(location) && touchPosition == arrayPositions[0])  {
+                moveDown()
+            } else if (self.Circle2.contains(location) && touchPosition != arrayPositions[0]) {
+                let jumpUpAction = SKAction.moveBy(x: 0, y:20, duration:0.2)
+                let jumpDownAction = SKAction.moveBy(x: 0, y:-20, duration:0.2)
+                let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
+                arrayChickens[0].run(jumpSequence)
+                run(SKAction.wait(forDuration: TimeInterval(5)))
+                let enable1 = SKAction.run({[unowned self] in self.Circle1.isUserInteractionEnabled = false})
+                Circle1.isUserInteractionEnabled = true
+                Circle1.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable1]))
+                let enable2 = SKAction.run({[unowned self] in self.Circle2.isUserInteractionEnabled = false})
+                Circle2.isUserInteractionEnabled = true
+                Circle2.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable2]))
+                let enable3 = SKAction.run({[unowned self] in self.Circle3.isUserInteractionEnabled = false})
+                Circle3.isUserInteractionEnabled = true
+                Circle3.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable3]))
+            }
+            
+            if (self.Circle3.contains(location) && touchPosition == arrayPositions[0])  {
+                moveDown()
+            } else if (self.Circle3.contains(location) && touchPosition != arrayPositions[0]) {
+                let jumpUpAction = SKAction.moveBy(x: 0, y:20, duration:0.2)
+                let jumpDownAction = SKAction.moveBy(x: 0, y:-20, duration:0.2)
+                let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
+                arrayChickens[0].run(jumpSequence)
+                run(SKAction.wait(forDuration: TimeInterval(5)))
+                let enable1 = SKAction.run({[unowned self] in self.Circle1.isUserInteractionEnabled = false})
+                Circle1.isUserInteractionEnabled = true
+                Circle1.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable1]))
+                let enable2 = SKAction.run({[unowned self] in self.Circle2.isUserInteractionEnabled = false})
+                Circle2.isUserInteractionEnabled = true
+                Circle2.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable2]))
+                let enable3 = SKAction.run({[unowned self] in self.Circle3.isUserInteractionEnabled = false})
+                Circle3.isUserInteractionEnabled = true
+                Circle3.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable3]))
             }
         }
+        
     }
 
 }
