@@ -10,19 +10,20 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-
-
 class GameViewController: UIViewController {
 
     @IBOutlet weak var currentScore: UILabel!
     @IBOutlet weak var countLabel: UILabel!
 
     var timer = Timer()
-    var counter = 30
+    var counter = 10
+    var scene = GameScene()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let scene = GameScene(size: view.bounds.size)
+        scene = GameScene(size: view.bounds.size)
+        scene.viewController = self
+        
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
@@ -31,6 +32,12 @@ class GameViewController: UIViewController {
         skView.presentScene(scene)
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(UIMenuController.update), userInfo: nil, repeats:true)
     }
+    
+    func reset() {
+        counter = 10
+        timer.fire()
+    }
+    
     
     func update() {
         if (counter > -1) {
@@ -42,8 +49,8 @@ class GameViewController: UIViewController {
             let skView = self.view as! SKView
             let reveal = SKTransition.fade(with: UIColor.red, duration: 5)
             let gameOverScene = GameOverScene(size: view.bounds.size)
-            skView.presentScene(gameOverScene, transition: reveal
-            )
+            
+            skView.presentScene(gameOverScene, transition: reveal)
         }
     }
     
