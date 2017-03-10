@@ -17,14 +17,9 @@ class GameOverScene: SKScene {
         
         backgroundColor = SKColor.white
         
-        let message = "Game Over"
-        
-        let label = SKLabelNode(fontNamed: "Thonburi-Bold")
-        label.text = message
-        label.fontSize = 40
-        label.fontColor = SKColor.black
-        label.position = CGPoint(x: size.width/2, y: size.height/1.5)
-        addChild(label)
+        let gameover = SKSpriteNode(imageNamed: "gameover")
+        gameover.position = CGPoint(x: size.width/2, y: size.height/1.3)
+        addChild(gameover)
         
         let button = SKSpriteNode(imageNamed: "restartbutton")
         button.position = CGPoint(x: size.width/2, y: size.height/2.5)

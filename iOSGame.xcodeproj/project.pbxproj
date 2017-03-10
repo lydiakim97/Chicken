@@ -434,7 +434,7 @@
 				INFOPLIST_FILE = iOSGame/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = COMP4977.Chicken;
+				PRODUCT_BUNDLE_IDENTIFIER = COMP4977.ChickenGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -449,7 +449,7 @@
 				INFOPLIST_FILE = iOSGame/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = COMP4977.Chicken;
+				PRODUCT_BUNDLE_IDENTIFIER = COMP4977.ChickenGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
