@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "rsz_gameover.png",
+      "filename" : "gameover.png",
       "scale" : "1x"
     },
     {
