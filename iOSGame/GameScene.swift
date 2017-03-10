@@ -132,6 +132,9 @@ class GameScene: SKScene {
         }
         score += 1
         
+        myLabel.text = "\(score)"
+        
+        
         let defaults = UserDefaults.standard
         let highestScore = defaults.string(forKey: "myKey")
         if (Int(highestScore!)! < score) {
@@ -139,7 +142,6 @@ class GameScene: SKScene {
             defaults.synchronize()
         }
         
-        myLabel.text = "\(score)"
     }
     
     
