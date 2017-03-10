@@ -18,7 +18,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var countLabel: UILabel!
 
     var timer = Timer()
-    var counter = 5
+    var counter = 30
 
     override func viewDidLoad() {
         super.viewDidLoad()

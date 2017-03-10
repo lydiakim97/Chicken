@@ -8,6 +8,8 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
+import AudioToolbox
 
 var score: Int = 0
 var myLabel: SKLabelNode!
@@ -23,7 +25,8 @@ class GameScene: SKScene {
     var arrayChickens:[SKSpriteNode] = []
     var arrayPositions:[String] = []
     let numberOfChickens = 5
-    
+    var player: AVAudioPlayer?
+
     override func didMove(to view: SKView) {
         background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
         background.zPosition = 1
@@ -31,15 +34,31 @@ class GameScene: SKScene {
         initChicken()
         addButtons()
         initScore()
+        playSound()
     }
 
-    // shows the friggin score
+    // background music
+    func playSound() {
+        let url = Bundle.main.url(forResource: "backgroundmusic", withExtension: "mp3")!
+    
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else { return }
+            
+            player.prepareToPlay()
+            player.play()
+        } catch let error as NSError {
+            print(error.description)
+        }
+    }
+    
+    // shows the score
     func initScore() {
         myLabel = SKLabelNode(fontNamed: "Helvetica")
         myLabel.text = "0"
         myLabel.fontSize = 19
         myLabel.fontColor = SKColor.black
-        myLabel.position = CGPoint(x: size.width * 0.055 , y: size.height * 0.945) // score on the top-left corner
+        myLabel.position = CGPoint(x: size.width * 0.065 , y: size.height * 0.945) // score on the top-left corner
         myLabel.zPosition = 2
         addChild(myLabel)
     }
@@ -112,6 +131,14 @@ class GameScene: SKScene {
             arrayChickens[i].run(moveDownSequence)
         }
         score += 1
+        
+        let defaults = UserDefaults.standard
+        let highestScore = defaults.string(forKey: "myKey")
+        if (Int(highestScore!)! < score) {
+            defaults.set(score, forKey: "myKey") // save the score
+            defaults.synchronize()
+        }
+        
         myLabel.text = "\(score)"
     }
     
@@ -152,13 +179,17 @@ class GameScene: SKScene {
             }
             
             // check if circle node has been touched
-            if (self.Circle1.contains(location) && touchPosition == arrayPositions[0])  {
+            if (self.Circle1.contains(location) && touchPosition == arrayPositions[0]
+                || (self.Circle2.contains(location) && touchPosition == arrayPositions[0])
+                || (self.Circle3.contains(location) && touchPosition == arrayPositions[0]))  {
                 moveDown()
-            } else if (self.Circle1.contains(location) && touchPosition != arrayPositions[0]) {
+            } else {
                 let jumpUpAction = SKAction.moveBy(x: 0, y:20, duration:0.2)
                 let jumpDownAction = SKAction.moveBy(x: 0, y:-20, duration:0.2)
                 let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
+                
                 arrayChickens[0].run(jumpSequence)
+                
                 let enable1 = SKAction.run({[unowned self] in self.Circle1.isUserInteractionEnabled = false})
                 Circle1.isUserInteractionEnabled = true
                 Circle1.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable1]))
@@ -170,46 +201,12 @@ class GameScene: SKScene {
                 Circle3.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable3]))
                 
             }
-            
-            if (self.Circle2.contains(location) && touchPosition == arrayPositions[0])  {
-                moveDown()
-            } else if (self.Circle2.contains(location) && touchPosition != arrayPositions[0]) {
-                let jumpUpAction = SKAction.moveBy(x: 0, y:20, duration:0.2)
-                let jumpDownAction = SKAction.moveBy(x: 0, y:-20, duration:0.2)
-                let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
-                arrayChickens[0].run(jumpSequence)
-                run(SKAction.wait(forDuration: TimeInterval(5)))
-                let enable1 = SKAction.run({[unowned self] in self.Circle1.isUserInteractionEnabled = false})
-                Circle1.isUserInteractionEnabled = true
-                Circle1.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable1]))
-                let enable2 = SKAction.run({[unowned self] in self.Circle2.isUserInteractionEnabled = false})
-                Circle2.isUserInteractionEnabled = true
-                Circle2.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable2]))
-                let enable3 = SKAction.run({[unowned self] in self.Circle3.isUserInteractionEnabled = false})
-                Circle3.isUserInteractionEnabled = true
-                Circle3.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable3]))
-            }
-            
-            if (self.Circle3.contains(location) && touchPosition == arrayPositions[0])  {
-                moveDown()
-            } else if (self.Circle3.contains(location) && touchPosition != arrayPositions[0]) {
-                let jumpUpAction = SKAction.moveBy(x: 0, y:20, duration:0.2)
-                let jumpDownAction = SKAction.moveBy(x: 0, y:-20, duration:0.2)
-                let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
-                arrayChickens[0].run(jumpSequence)
-                run(SKAction.wait(forDuration: TimeInterval(5)))
-                let enable1 = SKAction.run({[unowned self] in self.Circle1.isUserInteractionEnabled = false})
-                Circle1.isUserInteractionEnabled = true
-                Circle1.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable1]))
-                let enable2 = SKAction.run({[unowned self] in self.Circle2.isUserInteractionEnabled = false})
-                Circle2.isUserInteractionEnabled = true
-                Circle2.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable2]))
-                let enable3 = SKAction.run({[unowned self] in self.Circle3.isUserInteractionEnabled = false})
-                Circle3.isUserInteractionEnabled = true
-                Circle3.run(SKAction.sequence([SKAction.wait(forDuration:0.4),enable3]))
-            }
         }
         
+    }
+    
+    func reset() {
+        score = 0
     }
 
 }
