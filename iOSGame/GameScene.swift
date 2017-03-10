@@ -8,6 +8,8 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
+import AudioToolbox
 
 var score: Int = 0
 var myLabel: SKLabelNode!
@@ -23,7 +25,8 @@ class GameScene: SKScene {
     var arrayChickens:[SKSpriteNode] = []
     var arrayPositions:[String] = []
     let numberOfChickens = 5
-    
+    var player: AVAudioPlayer?
+
     override func didMove(to view: SKView) {
         background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
         background.zPosition = 1
@@ -31,15 +34,31 @@ class GameScene: SKScene {
         initChicken()
         addButtons()
         initScore()
+        playSound()
     }
 
+    // background music
+    func playSound() {
+        let url = Bundle.main.url(forResource: "backgroundmusic", withExtension: "mp3")!
+    
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else { return }
+            
+            player.prepareToPlay()
+            player.play()
+        } catch let error as NSError {
+            print(error.description)
+        }
+    }
+    
     // shows the friggin score
     func initScore() {
         myLabel = SKLabelNode(fontNamed: "Helvetica")
         myLabel.text = "0"
         myLabel.fontSize = 19
         myLabel.fontColor = SKColor.black
-        myLabel.position = CGPoint(x: size.width * 0.055 , y: size.height * 0.945) // score on the top-left corner
+        myLabel.position = CGPoint(x: size.width * 0.065 , y: size.height * 0.945) // score on the top-left corner
         myLabel.zPosition = 2
         addChild(myLabel)
     }
