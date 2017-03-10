@@ -14,20 +14,20 @@ var myLabel: SKLabelNode!
 
 class GameScene: SKScene {
     
-    var chicken = SKSpriteNode(imageNamed: "chicken-2")
+    var chicken = SKSpriteNode(imageNamed: "chicken")
     var chickenPosition = ""
     let Circle1 = SKSpriteNode(imageNamed: "barn")
     let Circle2 = SKSpriteNode(imageNamed: "barn")
     let Circle3 = SKSpriteNode(imageNamed: "barn")
-
+    let background = SKSpriteNode(imageNamed: "grass-background.jpg") // background image on the gameplay
     var arrayChickens:[SKSpriteNode] = []
     var arrayPositions:[String] = []
     let numberOfChickens = 5
     
     override func didMove(to view: SKView) {
-        /*let bgImage = SKSpriteNode(imageNamed: "background.jpg")
-         self.addChild(bgImage)*/
-        backgroundColor = UIColor.white
+        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        background.zPosition = 1
+        addChild(background)
         initChicken()
         addButtons()
         initScore()
@@ -36,17 +36,18 @@ class GameScene: SKScene {
     // shows the friggin score
     func initScore() {
         myLabel = SKLabelNode(fontNamed: "Helvetica")
-        myLabel.text = "Score: 0"
-        myLabel.fontSize = 20
+        myLabel.text = "0"
+        myLabel.fontSize = 19
         myLabel.fontColor = SKColor.black
-        myLabel.position = CGPoint(x: size.width / 2, y: size.height * 0.05)
+        myLabel.position = CGPoint(x: size.width * 0.055 , y: size.height * 0.945) // score on the top-left corner
+        myLabel.zPosition = 2
         addChild(myLabel)
     }
     
     /* Creates 5 instances of a chicken and add them to the chickens array */
     func initChicken() {
         for i in 0..<numberOfChickens {
-            chicken = SKSpriteNode(imageNamed: "chicken-2")
+            chicken = SKSpriteNode(imageNamed: "chicken")
             
             let placement = Int(arc4random_uniform(100))
 
@@ -63,6 +64,7 @@ class GameScene: SKScene {
             
             arrayChickens.append(chicken)
             arrayPositions.append(chickenPosition)
+            chicken.zPosition = 2
             addChild(chicken)
 
         }
@@ -71,7 +73,7 @@ class GameScene: SKScene {
 
     func addChicken() {
         // Adds chicken to last index of arrayChicken
-        chicken = SKSpriteNode(imageNamed: "chicken-2")
+        chicken = SKSpriteNode(imageNamed: "chicken")
         let placement = Int(arc4random_uniform(100))
         
         if(placement <= 33) {
@@ -88,6 +90,7 @@ class GameScene: SKScene {
         arrayChickens[4] = chicken
         arrayPositions[4] = chickenPosition
         
+        chicken.zPosition = 2
         addChild(chicken)
 
     }
@@ -109,21 +112,24 @@ class GameScene: SKScene {
             arrayChickens[i].run(moveDownSequence)
         }
         score += 1
-        myLabel.text = "Score: \(score)"
+        myLabel.text = "\(score)"
     }
     
     
     func addButtons() {
         //left
         Circle1.position = CGPoint(x: size.width * 0.15, y: size.height * 0.13)
+        Circle1.zPosition = 2
         addChild(Circle1)
         
         //mid
         Circle2.position = CGPoint(x: size.width * 0.5, y: size.height * 0.13)
+        Circle2.zPosition = 2
         addChild(Circle2)
         
         //right
         Circle3.position = CGPoint(x: size.width * 0.85, y: size.height * 0.13)
+        Circle3.zPosition = 2
         addChild(Circle3)
     }
     
