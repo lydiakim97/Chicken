@@ -15,10 +15,6 @@ import GameplayKit
 class GameViewController: UIViewController {
 
     @IBOutlet weak var currentScore: UILabel!
-    @IBOutlet weak var countLabel: UILabel!
-
-    var timer = Timer()
-    var counter = 30
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,21 +25,6 @@ class GameViewController: UIViewController {
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(UIMenuController.update), userInfo: nil, repeats:true)
-    }
-    
-    func update() {
-        if (counter > -1) {
-            countLabel.text = "Time: " + String(counter)
-            counter -= 1
-        } else {
-            timer.invalidate()
-            countLabel.text = ""
-            let skView = self.view as! SKView
-            let reveal = SKTransition.fade(with: UIColor.white, duration: 3)
-            let gameOverScene = GameOverScene(size: view.bounds.size)
-            skView.presentScene(gameOverScene, transition: reveal)
-        }
     }
     
     override var prefersStatusBarHidden: Bool {

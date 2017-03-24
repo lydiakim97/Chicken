@@ -26,6 +26,12 @@ class GameScene: SKScene {
     var arrayPositions:[String] = []
     let numberOfChickens = 5
     var player: AVAudioPlayer?
+    var levelTimerLabel = SKLabelNode(fontNamed: "Helvetica")
+    var levelTimerValue: Int = 30 {
+        didSet {
+            levelTimerLabel.text = "Time left: \(levelTimerValue)"
+        }
+    }
 
     override func didMove(to view: SKView) {
         background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
@@ -35,6 +41,31 @@ class GameScene: SKScene {
         addButtons()
         initScore()
         playSound()
+        initTimer()
+    }
+    
+    // init timer
+    func initTimer() {
+        levelTimerLabel.fontColor = SKColor.black
+        levelTimerLabel.fontSize = 19
+        levelTimerLabel.position = CGPoint(x: size.width * 0.8, y: size.height * 0.945)
+        levelTimerLabel.text = "Time left: '\(levelTimerValue)"
+        levelTimerLabel.zPosition = 2
+        addChild(levelTimerLabel)
+        print("test")
+        
+        let wait = SKAction.wait(forDuration: 1) // change countdown speed here
+        let block = SKAction.run({
+            [unowned self] in
+            
+            if (self.levelTimerValue > 0) {
+                self.levelTimerValue -= 1
+            } else {
+                self.removeAction(forKey: "countdown")
+            }
+        })
+        let sequence = SKAction.sequence([wait,block])
+        run(SKAction.repeatForever(sequence), withKey: "countdown")
     }
 
     // background music
@@ -133,11 +164,9 @@ class GameScene: SKScene {
         score += 1
         
         let defaults = UserDefaults.standard
-        let highestScore = defaults.string(forKey: "myKey")
-        if (Int(highestScore!)! < score) {
-            defaults.set(score, forKey: "myKey") // save the score
-            defaults.synchronize()
-        }
+        defaults.set(score, forKey: "myKey") // save the score
+        defaults.synchronize()
+        
         
         myLabel.text = "\(score)"
     }
@@ -158,6 +187,13 @@ class GameScene: SKScene {
         Circle3.position = CGPoint(x: size.width * 0.85, y: size.height * 0.13)
         Circle3.zPosition = 2
         addChild(Circle3)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // Stop the countdown action
+        if action(forKey: "countdown") != nil {
+            removeAction(forKey: "countdown")
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
