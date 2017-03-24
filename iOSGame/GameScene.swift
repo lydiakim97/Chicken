@@ -55,16 +55,23 @@ class GameScene: SKScene {
         print("test")
         
         let wait = SKAction.wait(forDuration: 1) // change countdown speed here
-        let block = SKAction.run({
+        let countdown = SKAction.run({
             [unowned self] in
             
-            if (self.levelTimerValue > 0) {
+            self.levelTimerValue -= 1
+            
+            if (self.levelTimerValue > -1) {   
                 self.levelTimerValue -= 1
             } else {
                 self.removeAction(forKey: "countdown")
+                self.reset()
+                let skView = self.view
+                let reveal = SKTransition.fade(with: UIColor.white, duration: 3)
+                let gameOverScene = GameOverScene(size: self.size)
+                skView?.presentScene(gameOverScene, transition: reveal)
             }
         })
-        let sequence = SKAction.sequence([wait,block])
+        let sequence = SKAction.sequence([wait, countdown])
         run(SKAction.repeatForever(sequence), withKey: "countdown")
     }
 
@@ -189,13 +196,6 @@ class GameScene: SKScene {
         addChild(Circle3)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // Stop the countdown action
-        if action(forKey: "countdown") != nil {
-            removeAction(forKey: "countdown")
-        }
-    }
-    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch: AnyObject in touches {
@@ -243,6 +243,7 @@ class GameScene: SKScene {
     
     func reset() {
         score = 0
+        levelTimerValue = 30
     }
 
 }

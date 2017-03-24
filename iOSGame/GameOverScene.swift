@@ -34,7 +34,7 @@ class GameOverScene: SKScene {
         let defaults = UserDefaults.standard
         let token = defaults.string(forKey: "myKey")
         
-        let message = "Best Score: " + token!
+        let message = "Your Score: " + token!
         
         let label = SKLabelNode(fontNamed: "Thonburi-Bold")
         label.text = message
